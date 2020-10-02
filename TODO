@@ -1,0 +1,24 @@
+1. make snort reader handle lists, descend recursively - done
+2. ensure port/protocol ranges and inputs are host byte order - done
+3. silence compiler warnings (i.e., fix types) - done
+
+4. throw more statistics in dumps - somewhat done
+5. debug - somewhat done
+6. allow dual filters? - not done
+7. write out filter info for external analysis - done
+
+8. fix build tree, make single library of pulled-in routines - done
+9. tune Bloom filter parameters - done
+10. add snort host tagging - done
+
+11. move filters into shared memory, for parallel analysis - done
+12. move everything into git - done
+
+13. make simplified tagged host list (instead of parsing snort records) - done
+
+14. ngramlabel needs to keep some simple stats - done
+15. Need to fix up the readfile stuff - done and done
+16. Work the stats into ngramcmp
+
+17. deal with range of ngrams together - done for bloom only
+18. change hash function to fnv - mostly done, need to clean out old code

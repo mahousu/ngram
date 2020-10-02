@@ -1,0 +1,64 @@
+This is an amazing conglomeration of code developed piecemeal, which
+I've roughly fit together.
+
+The main pieces:
+
+ngram.c - main, argument processing
+range.c - used in argument processing
+
+readapplication.c - the protocol readers/filters
+readtransport.c
+readinternet.c
+readlink.c
+
+entropy.c - byte-wise statistical entropy calculator/filter
+
+snortcheck.c - check whether this packet has been tagged by snort
+snorthostcheck.c - check whether this host has been tagged by snort
+ymd.c - miscellaneous date routines, used by the above
+readtree.c - miscellaneous file/directory routines, used by the above
+
+arrayngram.c - ngram counters
+bloom.c
+
+In putting these things together, I've tried to regularize the
+interfaces a bit, and make things configurable through command-line
+arguments. The arguments are:
+
+-I yes/no	- select/deselect based on protocol
+-P protocol	- select/deselect only this protocol/set of protocols
+-i yes/no	- select/deselect based on port
+-p port		- select/deselect only this port/set of ports
+		- both of the above can be comma-separated sets of ranges,
+		  e.g., 2-6,34-90
+
+-E yes/no	- select/deselect based on entropy
+-e entropy	- range of entropy to select/deselect
+
+-S yes/no	- select packets tagged/not tagged by snort
+-s d1,d2,...	- directories and/or files of snort alerts to use
+-t begin-end	- time range of snort alerts in yyyymmdd format
+
+-H yes/no	- select hosts tagged/not tagged by snort
+-h h1,h2,...	- hosts and/or subnets exempt from tagging
+
+-L yes/no	- select/deselect listed hosts
+-l h1,h2,...	- listed hosts
+
+	lists may also be given as file=<file with list info>
+
+-N filter	- which ngram filter to use (bloom, array ...)
+-n low-high	- range of length of ngrams
+
+-D dumpfile	- dump filter contents to this file
+-d dumplevel	- debug level
+
+-A shmfile	- allocate filters in this (permanent) shared memory region
+
+-T start,end	- start and end time of packets to select
+
+Typical usage:
+
+ngram -P tcp -p 80 -E yes -e 0-7 -S no -s snortdir1,snortdir2 -N bloom -n 5-9 pcap1 pcap2 pcap3 ...
+
+This collects ngrams only from low-entropy http packets not tagged by snort.
